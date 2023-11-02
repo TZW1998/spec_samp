@@ -135,6 +135,7 @@ def main(args):
     assert args.image_size % 8 == 0, "Image size must be divisible by 8 (for the VAE encoder)."
     latent_size = args.image_size // 8
     vae = AutoencoderKL.from_pretrained(SD_PRETRAINED_VAE).to(device)
+    print(f"Loaded VAE from {SD_PRETRAINED_VAE}.")
 
     # Setup data:
     transform = transforms.Compose([
@@ -160,7 +161,8 @@ def main(args):
         pin_memory=True,
         drop_last=True
     )
-
+    print(f"Loaded dataset from {args.data_path}.")
+    print("start extracting features...")
     train_steps = 0
     for x, y in loader:
         x = x.to(device)
