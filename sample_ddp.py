@@ -25,13 +25,15 @@ import math
 import argparse
 
 
-def create_npz_from_sample_folder(sample_dir, num=50_000):
+def create_npz_from_sample_folder(sample_dir):
     """
     Builds a single .npz file from a folder of .png samples.
     """
     samples = []
+    samples_image = os.listdir(sample_dir)
+    num = len(samples_image)
     for i in tqdm(range(num), desc="Building .npz file from samples"):
-        sample_pil = Image.open(f"{sample_dir}/{i:06d}.png")
+        sample_pil = Image.open(f"{sample_dir}/{samples_image[i]}")
         sample_np = np.asarray(sample_pil).astype(np.uint8)
         samples.append(sample_np)
     samples = np.stack(samples)
@@ -140,7 +142,7 @@ def main(args):
     # Make sure all processes have finished saving their samples before attempting to convert to .npz
     dist.barrier()
     if rank == 0:
-        create_npz_from_sample_folder(sample_folder_dir, args.num_fid_samples)
+        create_npz_from_sample_folder(sample_folder_dir)
         print("Done.")
     dist.barrier()
     dist.destroy_process_group()
