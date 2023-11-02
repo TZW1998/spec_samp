@@ -31,6 +31,8 @@ from models import DiT_models
 from diffusion import create_diffusion
 from diffusers.models import AutoencoderKL
 
+from global_path import *
+
 
 #################################################################################
 #                             Training Helper Functions                         #
@@ -132,7 +134,7 @@ def main(args):
     # Create model:
     assert args.image_size % 8 == 0, "Image size must be divisible by 8 (for the VAE encoder)."
     latent_size = args.image_size // 8
-    vae = AutoencoderKL.from_pretrained(f"stabilityai/sd-vae-ft-{args.vae}").to(device)
+    vae = AutoencoderKL.from_pretrained(SD_PRETRAINED_VAE).to(device)
 
     # Setup data:
     transform = transforms.Compose([

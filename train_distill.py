@@ -32,6 +32,8 @@ from models import DiT_models
 from diffusion import create_diffusion
 from diffusers.models import AutoencoderKL
 
+from global_path import *
+
 
 #################################################################################
 #                             Training Helper Functions                         #
