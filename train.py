@@ -155,7 +155,7 @@ def main(args):
     ema = deepcopy(model).to(device)  # Create an EMA of the model for use after training
     requires_grad(ema, False)
     diffusion = create_diffusion(timestep_respacing="")  # default: 1000 steps, linear noise schedule
-    vae = AutoencoderKL.from_pretrained(SD_PRETRAINED_VAE).to(device)
+
     if accelerator.is_main_process:
         logger.info(f"DiT Parameters: {sum(p.numel() for p in model.parameters()):,}")
 
@@ -258,7 +258,6 @@ if __name__ == "__main__":
     parser.add_argument("--epochs", type=int, default=1400)
     parser.add_argument("--global-batch-size", type=int, default=256)
     parser.add_argument("--global-seed", type=int, default=0)
-    parser.add_argument("--vae", type=str, choices=["ema", "mse"], default="ema")  # Choice doesn't affect training
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--log-every", type=int, default=100)
     parser.add_argument("--ckpt-every", type=int, default=50_000)

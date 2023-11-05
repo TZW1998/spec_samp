@@ -1,1 +1,1 @@
-SD_PRETRAINED_VAE = "/mnt/workspace/zhiwei/sdv1-5-full-diffuser/vae"
+SD_PRETRAINED_VAE = "/mnt/workspace/workgroup/tangzhiwei.tzw/sdv1-5-full-diffuser/vae"
