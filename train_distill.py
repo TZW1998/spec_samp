@@ -169,6 +169,7 @@ def main(args):
         num_classes=args.num_classes
     )
     pretrained_model.load_state_dict(torch.load(args.pretrained_model))
+    pretrained_model = pretrained_model.to(device)
 
 
     # Setup data:
