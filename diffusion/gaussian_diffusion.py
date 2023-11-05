@@ -807,14 +807,12 @@ class GaussianDiffusion:
 
         terms = {}
         model_output = model(x_t, t, **model_kwargs)
-        model_output, _ = th.split(model_output, model_output.shape[1] // 2, dim=1)
         with th.no_grad():
             pretrained_model_output = pretrained_model(x_t, t, **model_kwargs)
-            pretrained_model_output, _ = th.split(pretrained_model_output, pretrained_model_output.shape[1] // 2, dim=1)
         
         # debug
         # print(model_output.shape, pretrained_model_output.shape, x_start.shape, model_kwargs)
-        assert model_output.shape == pretrained_model_output.shape == x_start.shape
+        assert model_output.shape == pretrained_model_output.shape
         terms["mse"] = mean_flat((pretrained_model_output - model_output) ** 2)
         terms["loss"] = terms["mse"]
 
