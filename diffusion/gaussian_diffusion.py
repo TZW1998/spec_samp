@@ -785,6 +785,35 @@ class GaussianDiffusion:
             raise NotImplementedError(self.loss_type)
 
         return terms
+    
+    def distilling_losses(self, model, pretrained_model, x_start, t, model_kwargs=None, noise=None):
+        """
+        Compute distilling losses for a single timestep.
+        :param model: the model to evaluate loss on.
+        :param pretrained_model: the pretrained model to be distilled.
+        :param x_start: the [N x C x ...] tensor of inputs.
+        :param t: a batch of timestep indices.
+        :param model_kwargs: if not None, a dict of extra keyword arguments to
+            pass to the model. This can be used for conditioning.
+        :param noise: if specified, the specific Gaussian noise to try to remove.
+        :return: a dict with the key "loss" containing a tensor of shape [N].
+                 Some mean or variance settings may also have other keys.
+        """
+        if model_kwargs is None:
+            model_kwargs = {}
+        if noise is None:
+            noise = th.randn_like(x_start)
+        x_t = self.q_sample(x_start, t, noise=noise)
+
+        terms = {}
+        model_output = model(x_t, t, **model_kwargs)
+        with th.no_grad():
+            pretrained_model_output = pretrained_model(x_t, t, **model_kwargs)
+        assert model_output.shape == pretrained_model_output.shape == x_start.shape
+        terms["mse"] = mean_flat((pretrained_model_output - model_output) ** 2)
+        terms["loss"] = terms["mse"]
+
+        return terms
 
     def _prior_bpd(self, x_start):
         """
