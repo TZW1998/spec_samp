@@ -129,6 +129,21 @@ There are several additional options; see [`sample_ddp.py`](sample_ddp.py) for d
 
 
 ## Developed by Zhiwei
+
+Setup the environment (there is some problem with environment.yml)
+
+```bash
+conda create -n DiT python==3.11.5
+conda activate DiT
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install ml-collections absl-py diffusers[torch] transformers wandb inflect pydantic ipdb matplotlib accelerate timm
+```
+
+Training a small model from scratch using 8 GPUs
+```bash
+accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train.py --model DiT-S/8 --features-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features 
+```
+
 Distilling a small models from a pretrained model using 8 GPUs
 ```bash
 accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train_distill.py --model DiT-S/8 --features-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features --pretrained_model /mnt/workspace/workgroup/tangzhiwei.tzw/DiT-XL-2-256x256.pt
