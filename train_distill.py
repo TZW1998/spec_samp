@@ -181,6 +181,7 @@ def main(args):
         batch_size=int(args.global_batch_size // accelerator.num_processes),
         shuffle=True,
         num_workers=args.num_workers,
+        prefetch_factor=args.prefetch_factor,
         pin_memory=True,
         drop_last=True
     )
@@ -270,6 +271,7 @@ if __name__ == "__main__":
     parser.add_argument("--global-batch-size", type=int, default=256)
     parser.add_argument("--global-seed", type=int, default=0)
     parser.add_argument("--num-workers", type=int, default=4)
+    parser.add_argument("--prefetch-factor", type=int, default=8)
     parser.add_argument("--log-every", type=int, default=100)
     parser.add_argument("--ckpt-every", type=int, default=50_000)
     args = parser.parse_args()
