@@ -126,3 +126,11 @@ torchrun --nnodes=1 --nproc_per_node=N sample_ddp.py --model DiT-XL/2 --num-fid-
 ```
 
 There are several additional options; see [`sample_ddp.py`](sample_ddp.py) for details.
+
+
+## Developed by Zhiwei
+Distilling a small models from a pretrained model using 8 GPUs
+```bash
+accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train_distill.py --model DiT-S/8 --features-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features --pretrained_model /mnt/workspace/workgroup/tangzhiwei.tzw/DiT-XL-2-256x256.pt
+```
+
