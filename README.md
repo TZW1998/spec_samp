@@ -141,11 +141,11 @@ pip install ml-collections absl-py diffusers[torch] transformers wandb inflect p
 
 Training a small model from scratch using 8 GPUs
 ```bash
-accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train.py --model DiT-S/8 --features-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features 
+accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train.py --model DiT-S/8 --feature-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features --num-workers 16 --prefetch-factor 16
 ```
 
 Distilling a small models from a pretrained model using 8 GPUs
 ```bash
-accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train_distill.py --model DiT-S/8 --features-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features --pretrained_model /mnt/workspace/workgroup/tangzhiwei.tzw/DiT-XL-2-256x256.pt
+accelerate launch --multi_gpu --num_processes 8 --mixed_precision fp16 train_distill.py --model DiT-S/8 --feature-path /mnt/workspace/workgroup/tangzhiwei.tzw/imagenet1k_features --pretrained_model /mnt/workspace/workgroup/tangzhiwei.tzw/DiT-XL-2-256x256.pt --num-workers 16 --prefetch-factor 16
 ```
 
