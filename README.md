@@ -22,12 +22,13 @@ git clone https://github.com/chuanyangjin/fast-DiT.git
 cd DiT
 ```
 
-We provide an [`environment.yml`](environment.yml) file that can be used to create a Conda environment. If you only want 
-to run pre-trained models locally on CPU, you can remove the `cudatoolkit` and `pytorch-cuda` requirements from the file.
+Setup the environment (there is some problem with enviroment.yml)
 
 ```bash
-conda env create -f environment.yml
+conda create -n DiT python==3.11.5
 conda activate DiT
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install ml-collections absl-py diffusers[torch] transformers wandb inflect pydantic ipdb matplotlib accelerate timm
 ```
 
 
